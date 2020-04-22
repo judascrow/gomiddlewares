@@ -1,32 +1,3 @@
-# gomiddlewares
-
-- logger gin+zap
-- cors
-
-## Usage
-
-### Start using it
-
-Download and install it:
-
-```sh
-$ go get github.com/judascrow/gomiddlewares
-
-```
-
-Import it in your code:
-
-```go
-import "github.com/judascrow/gomiddlewares"
-```
-
-## Example
-
-See the [example](example/main.go).
-
-[embedmd]: # "example/main.go go"
-
-```go
 package main
 
 import (
@@ -53,5 +24,3 @@ func main() {
 	// Listen and Server in 0.0.0.0:8080
 	r.Run(":8080")
 }
-
-```
