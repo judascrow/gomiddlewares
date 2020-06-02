@@ -1,36 +1,20 @@
 package gomiddlewares
 
 import (
-	"net/http"
-	"regexp"
-
 	"github.com/gin-gonic/gin"
 )
 
 func GoCors() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		method := c.Request.Method
-		origin := c.Request.Header.Get("Origin")
-		var filterHost = [...]string{"http://localhost.*"}
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, PATCH, DELETE")
 
-		var isAccess = false
-		for _, v := range filterHost {
-			match, _ := regexp.MatchString(v, origin)
-			if match {
-				isAccess = true
-			}
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
 		}
-		if isAccess {
-			c.Header("Access-Control-Allow-Origin", "*")
-			c.Header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-Token")
-			c.Header("Access-Control-Allow-Methods", "GET, OPTIONS, POST, PUT, DELETE")
-			c.Set("content-type", "application/json")
-		}
-
-		if method == "OPTIONS" {
-			c.AbortWithStatus(http.StatusNoContent)
-		}
-
 		c.Next()
 	}
 }
