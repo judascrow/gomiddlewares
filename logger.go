@@ -80,7 +80,9 @@ func getEncoder() zapcore.Encoder {
 }
 func getLogWriter() zapcore.WriteSyncer {
 
-	logFileName := "service.log"
+	now := time.Now() //or time.Now().UTC()
+
+	logFileName := now.Format("2006-01-02") + ".log"
 	dirPath := path.Join(".", "logs")
 	// Create directory if does not exist
 	if _, err := os.Stat(dirPath); os.IsNotExist(err) {
